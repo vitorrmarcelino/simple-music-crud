@@ -1,4 +1,0 @@
-CREATE TABLE pais (
-    id SERIAL PRIMARY KEY NOT NULL,
-    nome VARCHAR(50) NOT NULL
-);
