@@ -1,0 +1,8 @@
+/home/vitor/Projetos/music-crud/demo/src/main/java/com/example/demo/MusicCrudApplication.java
+/home/vitor/Projetos/music-crud/demo/src/main/java/com/example/demo/controllers/ArtistController.java
+/home/vitor/Projetos/music-crud/demo/src/main/java/com/example/demo/domain/artist/Artist.java
+/home/vitor/Projetos/music-crud/demo/src/main/java/com/example/demo/domain/artist/ArtistRepository.java
+/home/vitor/Projetos/music-crud/demo/src/main/java/com/example/demo/domain/artist/RequestArtistDTO.java
+/home/vitor/Projetos/music-crud/demo/src/main/java/com/example/demo/domain/country/Country.java
+/home/vitor/Projetos/music-crud/demo/src/main/java/com/example/demo/domain/country/CountryRepository.java
+/home/vitor/Projetos/music-crud/demo/src/main/java/com/example/demo/services/ArtistService.java

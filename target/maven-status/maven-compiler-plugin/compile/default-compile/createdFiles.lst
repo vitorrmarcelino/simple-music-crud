@@ -1,0 +1,8 @@
+com/example/demo/domain/country/CountryRepository.class
+com/example/demo/MusicCrudApplication.class
+com/example/demo/domain/artist/ArtistRepository.class
+com/example/demo/services/ArtistService.class
+com/example/demo/domain/artist/Artist.class
+com/example/demo/controllers/ArtistController.class
+com/example/demo/domain/artist/RequestArtistDTO.class
+com/example/demo/domain/country/Country.class
