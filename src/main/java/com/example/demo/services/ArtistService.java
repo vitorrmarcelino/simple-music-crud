@@ -3,6 +3,7 @@ package com.example.demo.services;
 import com.example.demo.domain.artist.Artist;
 import com.example.demo.domain.artist.ArtistRepository;
 import com.example.demo.domain.artist.RequestArtistDTO;
+import com.example.demo.domain.artist.ResponseArtistDTO;
 import com.example.demo.domain.country.Country;
 import com.example.demo.domain.country.CountryRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,42 +24,46 @@ public class ArtistService {
     @Autowired
     private CountryRepository countryRepository;
 
-    public List<Artist> getAllArtists(){
+    public List<ResponseArtistDTO> getAllArtists(){
         List<Artist> artists = artistRepository.findAll();
 
-        return artists;
+        List<ResponseArtistDTO> responseArtists = artists.stream()
+                .map(artist -> new ResponseArtistDTO(artist.getId(), artist.getNome(), artist.getPais().getNome()))
+                .collect(Collectors.toList());
+
+        return responseArtists;
     }
 
-    public Artist getArtistById(Integer id){
+    public ResponseArtistDTO getArtistById(Integer id){
         Artist artist = artistRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Artist not found"));;
 
-        return artist;
+        return new ResponseArtistDTO(artist.getId(), artist.getNome(), artist.getPais().getNome());
     }
 
-    public Artist registerArtist(RequestArtistDTO requestArtistDTO){
+    public ResponseArtistDTO registerArtist(RequestArtistDTO requestArtistDTO){
         Country country = countryRepository.findById(requestArtistDTO.pais_id()).orElseThrow(() -> new IllegalArgumentException("Country not found"));
         Artist newArtist = new Artist();
         newArtist.setNome(requestArtistDTO.nome());
         newArtist.setPais(country);
-
-        return artistRepository.save(newArtist);
+        artistRepository.save(newArtist);
+        return new ResponseArtistDTO(newArtist.getId(), newArtist.getNome(), newArtist.getPais().getNome());
     }
 
-    public Artist updateArtist(RequestArtistDTO requestArtistDTO, Integer id){
+    public ResponseArtistDTO updateArtist(RequestArtistDTO requestArtistDTO, Integer id){
         Artist updatedArtist = artistRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Artist not found"));;
         Country country = countryRepository.findById(requestArtistDTO.pais_id()).orElseThrow(() -> new IllegalArgumentException("Country not found"));
 
         updatedArtist.setNome(requestArtistDTO.nome());
         updatedArtist.setPais(country);
 
-        return artistRepository.save(updatedArtist);
+        return new ResponseArtistDTO(updatedArtist.getId(), updatedArtist.getNome(), updatedArtist.getPais().getNome());
     }
 
-    public Artist deleteArtist(Integer id){
+    public ResponseArtistDTO deleteArtist(Integer id){
         Artist deletedArtist = artistRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Artist not found"));;
 
         artistRepository.delete(deletedArtist);
 
-        return deletedArtist;
+        return new ResponseArtistDTO(deletedArtist.getId(), deletedArtist.getNome(), deletedArtist.getPais().getNome());
     }
 }
