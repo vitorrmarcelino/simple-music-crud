@@ -2,6 +2,7 @@ package com.example.demo.controllers;
 
 import com.example.demo.domain.artist.RequestArtistDTO;
 import com.example.demo.domain.artist.ResponseArtistDTO;
+import com.example.demo.domain.artist.ResponseArtistWithMusicsDTO;
 import com.example.demo.services.ArtistService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ public class ArtistController {
 
     @GetMapping("/{id}")
     public ResponseEntity getArtistById(@PathVariable Integer id) {
-        ResponseArtistDTO artist = artistService.getArtistById(id);
+        ResponseArtistWithMusicsDTO artist = artistService.getArtistById(id);
         return ResponseEntity.ok(artist);
     }
 

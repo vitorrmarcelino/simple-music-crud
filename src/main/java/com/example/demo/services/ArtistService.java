@@ -1,19 +1,14 @@
 package com.example.demo.services;
 
-import com.example.demo.domain.artist.Artist;
-import com.example.demo.domain.artist.ArtistRepository;
-import com.example.demo.domain.artist.RequestArtistDTO;
-import com.example.demo.domain.artist.ResponseArtistDTO;
+import com.example.demo.domain.artist.*;
 import com.example.demo.domain.country.Country;
 import com.example.demo.domain.country.CountryRepository;
+import com.example.demo.domain.music.Music;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,10 +29,11 @@ public class ArtistService {
         return responseArtists;
     }
 
-    public ResponseArtistDTO getArtistById(Integer id){
+    public ResponseArtistWithMusicsDTO getArtistById(Integer id){
         Artist artist = artistRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Artist not found"));;
+        List<Music> musics = artist.getMusicas();
 
-        return new ResponseArtistDTO(artist.getId(), artist.getNome(), artist.getPais().getNome());
+        return new ResponseArtistWithMusicsDTO(artist.getId(), artist.getNome(), artist.getPais().getNome(), musics.stream().map(music -> new ResponseArtistWithMusicsDTO.MusicDTO(music.getNome())).toList());
     }
 
     public ResponseArtistDTO registerArtist(RequestArtistDTO requestArtistDTO){
@@ -62,8 +58,10 @@ public class ArtistService {
     public ResponseArtistDTO deleteArtist(Integer id){
         Artist deletedArtist = artistRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Artist not found"));;
 
+        ResponseArtistDTO artistDTO = new ResponseArtistDTO(deletedArtist.getId(), deletedArtist.getNome(), deletedArtist.getPais().getNome());
+
         artistRepository.delete(deletedArtist);
 
-        return new ResponseArtistDTO(deletedArtist.getId(), deletedArtist.getNome(), deletedArtist.getPais().getNome());
+        return artistDTO;
     }
 }
